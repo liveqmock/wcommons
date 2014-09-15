@@ -68,8 +68,6 @@
 					<descriptors>
 						<descriptor>wcommons-beanutils/release.xml</descriptor>
                         <descriptor>wcommons-beanutils/release-jar-with-dependencies.xml</descriptor>
-						<descriptor>wcommons-concurrent/release.xml</descriptor>
-                        <descriptor>wcommons-concurrent/release-jar-with-dependencies.xml</descriptor>
 						<descriptor>wcommons-httputils/release.xml</descriptor>
                         <descriptor>wcommons-httputils/release-jar-with-dependencies.xml</descriptor>
 						<descriptor>wcommons-lang/release.xml</descriptor>
