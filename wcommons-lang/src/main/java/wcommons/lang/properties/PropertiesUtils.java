@@ -23,16 +23,23 @@ public class PropertiesUtils {
 
 	public static final int DEFAULT_INTERVAL_SECONDS = 5 * 30;
 
-	public static Properties loadProperties(final String path) {
+	public static Properties loadProperties(String path) {
 		return loadProperties(path, null);
 	}
 
-	public static Properties loadProperties(final String path, final PropertiesListener listener) {
+	public static Properties loadProperties(String path, PropertiesListener listener) {
 		return loadProperties(path, listener, DEFAULT_INTERVAL_SECONDS);
 	}
 
-	public static Properties loadProperties(final String path, final PropertiesListener listener,
-			final int intervalSeconds) {
+	public static Properties loadProperties(String path, PropertiesListener listener, String encoding) {
+		return loadProperties(path, listener, DEFAULT_INTERVAL_SECONDS, encoding);
+	}
+
+	public static Properties loadProperties(String path, PropertiesListener listener, int intervalSeconds) {
+		return loadProperties(path, listener, intervalSeconds, "UTF-8");
+	}
+
+	public static Properties loadProperties(String path, PropertiesListener listener, int intervalSeconds, String encoding) {
 		final Properties properties = new Properties();
 
 		final File file = new File(path);
@@ -62,10 +69,9 @@ public class PropertiesUtils {
 				interval = intervalSeconds;
 			}
 
-			Executors.newSingleThreadScheduledExecutor(
-					new NamedThreadFactory("PropertiesListeners")).scheduleAtFixedRate(
-					new PropertiesListenerTask(path, lastModified, listener), interval, interval,
-					TimeUnit.SECONDS);
+			Executors.newSingleThreadScheduledExecutor(new NamedThreadFactory("PropertiesListeners"))
+					.scheduleAtFixedRate(new PropertiesListenerTask(path, lastModified, listener, encoding), interval,
+							interval, TimeUnit.SECONDS);
 		}
 
 		return properties;
@@ -104,8 +110,7 @@ public class PropertiesUtils {
 		return StringUtils.isBlank(value) ? null : Integer.valueOf(value);
 	}
 
-	public static Integer getPropertyForInteger(Properties properties, String key,
-			Integer defaultValue) {
+	public static Integer getPropertyForInteger(Properties properties, String key, Integer defaultValue) {
 		final String value = getProperty(properties, key);
 		return StringUtils.isBlank(value) ? defaultValue : Integer.valueOf(value);
 	}
@@ -145,8 +150,7 @@ public class PropertiesUtils {
 		return StringUtils.isBlank(value) ? null : Boolean.valueOf(value);
 	}
 
-	public static Boolean getPropertyForBoolean(Properties properties, String key,
-			Boolean defaultValue) {
+	public static Boolean getPropertyForBoolean(Properties properties, String key, Boolean defaultValue) {
 		final String value = getProperty(properties, key);
 		return StringUtils.isBlank(value) ? defaultValue : Boolean.valueOf(value);
 	}

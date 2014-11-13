@@ -20,11 +20,13 @@ public class PropertiesListenerTask implements Runnable {
 	private String path;
 	private PropertiesListener listener;
 	private long lastModified;
+	private String encoding;
 
-	public PropertiesListenerTask(String path, long lastModified, PropertiesListener listener) {
+	public PropertiesListenerTask(String path, long lastModified, PropertiesListener listener, String encoding) {
 		this.path = path;
 		this.lastModified = lastModified;
 		this.listener = listener;
+		this.encoding = encoding;
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class PropertiesListenerTask implements Runnable {
 				LOG.info("Properties[" + path + "] has changed");
 			}
 
-			final String content = FileUtils.readFileToString(file);
+			final String content = FileUtils.readFileToString(file, this.encoding);
 
 			if (listener.getExecutor() != null) {
 				listener.getExecutor().execute(new Runnable() {
