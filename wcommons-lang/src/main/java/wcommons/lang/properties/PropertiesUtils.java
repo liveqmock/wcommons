@@ -45,7 +45,7 @@ public class PropertiesUtils {
 		final File file = new File(path);
 		final String content;
 		try {
-			content = FileUtils.readFileToString(file);
+			content = FileUtils.readFileToString(file, encoding);
 		}
 		catch (IOException e) {
 			// 抛出异常，不能影响上层业务
